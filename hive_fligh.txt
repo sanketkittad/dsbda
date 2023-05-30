@@ -1,0 +1,368 @@
+hbase(main):003:0> scan 'flight_info'
+ROW                   COLUMN+CELL                                               
+0 row(s) in 0.1800 seconds
+
+hbase(main):004:0> put 'flight_info','1','info:flightno','6E101'
+0 row(s) in 0.2800 seconds
+
+hbase(main):005:0> scan 'flight_info'
+ROW                   COLUMN+CELL                                               
+ 1                    column=info:flightno, timestamp=1685353850991, value=6E101
+1 row(s) in 0.0500 seconds
+hbase(main):007:0> put 'flight_info','1','info:source','Pune'
+0 row(s) in 0.0390 seconds
+
+hbase(main):008:0> put 'flight_info','1','info:destination','Bangalore'
+0 row(s) in 0.0530 seconds
+
+hbase(main):009:0> put 'flight_info','1','info:scheduled','10:00'
+0 row(s) in 0.0150 seconds
+
+hbase(main):010:0> put 'flight_info','1','delay:minutes','30'
+0 row(s) in 0.0250 seconds
+
+hbase(main):011:0> put 'flight_info','2','info:flightno','AI601'
+0 row(s) in 0.0670 seconds
+
+hbase(main):012:0> put 'flight_info','2','info:source','Mumbai'
+0 row(s) in 0.0220 seconds
+
+hbase(main):013:0> put 'flight_info','2','info:destination','Jamnagar'
+0 row(s) in 0.0180 seconds
+
+hbase(main):014:0> put 'flight_info','2','info:scheduled','12:00'
+0 row(s) in 0.0190 seconds
+
+hbase(main):015:0> put 'flight_info','2','delay:minutes','40'
+0 row(s) in 0.0190 seconds
+
+hbase(main):016:0> put 'flight_info','3','info:flightno','VI890'
+0 row(s) in 0.0150 seconds
+
+hbase(main):017:0> put 'flight_info','3','info:source','New Delhi'
+0 row(s) in 0.0600 seconds
+
+hbase(main):001:0>  put 'flight_info','3','info:destination','Hyderabad'
+0 row(s) in 0.9900 seconds
+
+hbase(main):002:0>  put 'flight_info','3','info:scheduled','17:10'
+0 row(s) in 0.0320 seconds
+
+hbase(main):003:0>  put 'flight_info','3','delay:minutes','70'
+0 row(s) in 0.0450 seconds
+
+hbase(main):004:0> scan 'flight_info'
+ROW                   COLUMN+CELL                                               
+ 1                    column=delay:minutes, timestamp=1685353951010, value=30   
+ 1                    column=info:destination, timestamp=1685353912107, value=Ba
+                      ngalore                                                   
+ 1                    column=info:flightno, timestamp=1685353850991, value=6E101
+ 1                    column=info:scheduled, timestamp=1685353933584, value=10:0
+                      0                                                         
+ 1                    column=info:source, timestamp=1685353899718, value=Pune   
+ 2                    column=delay:minutes, timestamp=1685354117378, value=40   
+ 2                    column=info:destination, timestamp=1685354077659, value=Ja
+                      mnagar                                                    
+ 2                    column=info:flightno, timestamp=1685354044720, value=AI601
+ 2                    column=info:scheduled, timestamp=1685354095971, value=12:0
+                      0                                                         
+ 2                    column=info:source, timestamp=1685354059965, value=Mumbai 
+ 3                    column=delay:minutes, timestamp=1685354353783, value=70   
+ 3                    column=info:destination, timestamp=1685354276892, value=Hy
+                      derabad                                                   
+ 3                    column=info:flightno, timestamp=1685354159039, value=VI890
+ 3                    column=info:scheduled, timestamp=1685354331154, value=17:1
+                      0                                                         
+ 3                    column=info:source, timestamp=1685354176685, value=New Del
+                      hi                                                        
+3 row(s) in 0.2360 seconds
+
+hbase(main):005:0> create 'flightsTable','info','time'
+0 row(s) in 0.8210 seconds
+
+=> Hbase::Table - flightsTable
+hbase(main):009:0> scan 'flightsTable'
+ROW                   COLUMN+CELL                                               
+0 row(s) in 0.0600 seconds
+
+hbase(main):014:0> describe 'flightsTable'
+Table flightsTable is ENABLED                                                   
+flightsTable                                                                    
+COLUMN FAMILIES DESCRIPTION                                                     
+{NAME => 'flight_table', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', RE
+PLICATION_SCOPE => '0', COMPRESSION => 'NONE', VERSIONS => '1', TTL => 'FOREVER'
+, MIN_VERSIONS => '0', KEEP_DELETED_CELLS => 'FALSE', BLOCKSIZE => '65536', IN_M
+EMORY => 'false', BLOCKCACHE => 'true'}                                         
+{NAME => 'info', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATIO
+N_SCOPE => '0', VERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL
+ => 'FOREVER', KEEP_DELETED_CELLS => 'FALSE', BLOCKSIZE => '65536', IN_MEMORY =>
+ 'false', BLOCKCACHE => 'true'}                                                 
+{NAME => 'time', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATIO
+N_SCOPE => '0', VERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL
+ => 'FOREVER', KEEP_DELETED_CELLS => 'FALSE', BLOCKSIZE => '65536', IN_MEMORY =>
+ 'false', BLOCKCACHE => 'true'}                                                 
+3 row(s) in 0.1280 seconds
+
+hbase(main):015:0> alter 'flightsTable', NAME=> 'flight_table'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 2.5750 seconds
+
+hbase(main):016:0> describe 'flightsTable'
+Table flightsTable is ENABLED                                                                    
+flightsTable                                                                                     
+COLUMN FAMILIES DESCRIPTION                                                                      
+{NAME => 'flight_table', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE =
+> '0', COMPRESSION => 'NONE', VERSIONS => '1', TTL => 'FOREVER', MIN_VERSIONS => '0', KEEP_DELETE
+D_CELLS => 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}            
+{NAME => 'info', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+{NAME => 'time', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+3 row(s) in 0.1020 seconds
+
+
+
+hbase(main):018:0> alter 'flightsTable', NAME=> 'flight_table', METHOD=>'delete'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 2.5780 seconds
+
+hbase(main):020:0> describe 'flightsTable'
+Table flightsTable is ENABLED                                                                    
+flightsTable                                                                                     
+COLUMN FAMILIES DESCRIPTION                                                                      
+{NAME => 'info', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+{NAME => 'time', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+2 row(s) in 0.1430 seconds
+
+hbase(main):021:0> alter 'flightsTable', NAME=> 'information'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 2.6690 seconds
+
+hbase(main):022:0> describe 'flightsTable'
+Table flightsTable is ENABLED                                                                    
+flightsTable                                                                                     
+COLUMN FAMILIES DESCRIPTION                                                                      
+{NAME => 'info', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+{NAME => 'information', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE =>
+ '0', COMPRESSION => 'NONE', VERSIONS => '1', TTL => 'FOREVER', MIN_VERSIONS => '0', KEEP_DELETED
+_CELLS => 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}             
+{NAME => 'time', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+3 row(s) in 0.0810 seconds
+
+hbase(main):023:0> alter 'flightsTable', NAME=> 'information', METHOD=>'delete'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 2.5800 seconds
+
+hbase(main):024:0> alter 'flightsTable','info',NAME=>'information'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 4.9180 seconds
+
+hbase(main):025:0> describe 'flightsTable'
+Table flightsTable is ENABLED                                                                    
+flightsTable                                                                                     
+COLUMN FAMILIES DESCRIPTION                                                                      
+{NAME => 'info', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+{NAME => 'information', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE =>
+ '0', COMPRESSION => 'NONE', VERSIONS => '1', TTL => 'FOREVER', MIN_VERSIONS => '0', KEEP_DELETED
+_CELLS => 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}             
+{NAME => 'time', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+3 row(s) in 0.0630 seconds
+
+hbase(main):026:0> disable 'flightsTable'
+0 row(s) in 1.6980 seconds
+
+hbase(main):027:0> drop 'flightsTable'
+0 row(s) in 0.8180 seconds
+
+hbase(main):028:0> describe 'flightsTable'
+
+ERROR: Unknown table flightsTable!
+
+Here is some help for this command:
+Describe the named table. For example:
+  hbase> describe 't1'
+  hbase> describe 'ns1:t1'
+
+Alternatively, you can use the abbreviated 'desc' for the same thing.
+  hbase> desc 't1'
+  hbase> desc 'ns1:t1'
+
+
+hbase(main):029:0> describe 'flight_info'
+Table flight_info is ENABLED                                                                     
+flight_info                                                                                      
+COLUMN FAMILIES DESCRIPTION                                                                      
+{NAME => 'delay', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', 
+VERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS
+ => 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                   
+{NAME => 'info', DATA_BLOCK_ENCODING => 'NONE', BLOOMFILTER => 'ROW', REPLICATION_SCOPE => '0', V
+ERSIONS => '1', COMPRESSION => 'NONE', MIN_VERSIONS => '0', TTL => 'FOREVER', KEEP_DELETED_CELLS 
+=> 'FALSE', BLOCKSIZE => '65536', IN_MEMORY => 'false', BLOCKCACHE => 'true'}                    
+2 row(s) in 0.1080 seconds
+
+hbase(main):030:0> scan 'flight_info'
+ROW                       COLUMN+CELL                                                            
+ 1                        column=delay:minutes, timestamp=1685353951010, value=30                
+ 1                        column=info:destination, timestamp=1685353912107, value=Bangalore      
+ 1                        column=info:flightno, timestamp=1685353850991, value=6E101             
+ 1                        column=info:scheduled, timestamp=1685353933584, value=10:00            
+ 1                        column=info:source, timestamp=1685353899718, value=Pune                
+ 2                        column=delay:minutes, timestamp=1685354117378, value=40                
+ 2                        column=info:destination, timestamp=1685354077659, value=Jamnagar       
+ 2                        column=info:flightno, timestamp=1685354044720, value=AI601             
+ 2                        column=info:scheduled, timestamp=1685354095971, value=12:00            
+ 2                        column=info:source, timestamp=1685354059965, value=Mumbai              
+ 3                        column=delay:minutes, timestamp=1685354353783, value=70                
+ 3                        column=info:destination, timestamp=1685354276892, value=Hyderabad      
+ 3                        column=info:flightno, timestamp=1685354159039, value=VI890             
+ 3                        column=info:scheduled, timestamp=1685354331154, value=17:10            
+ 3                        column=info:source, timestamp=1685354176685, value=New Delhi           
+3 row(s) in 0.0500 seconds
+
+hbase(main):031:0> get 'flight_info','2'
+COLUMN                    CELL                                                                   
+ delay:minutes            timestamp=1685354117378, value=40                                      
+ info:destination         timestamp=1685354077659, value=Jamnagar                                
+ info:flightno            timestamp=1685354044720, value=AI601                                   
+ info:scheduled           timestamp=1685354095971, value=12:00                                   
+ info:source              timestamp=1685354059965, value=Mumbai                                  
+5 row(s) in 0.0450 seconds
+
+hive> CREATE EXTERNAL TABLE flight_info(id int,flightno string, source string,destination string,scheduled string, delay int) STORED BY
+    > 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH SERDEPROPERTIES
+    > ("hbase.columns.mapping"=":key,info:flightinfo,info:source,info:destination,info:scheduled,delay:minutes")
+    > TBLPROPERTIES ("hbase.table.name"="flight_info");
+OK
+Time taken: 3.079 seconds
+hive> select * from flight_info;
+OK
+1	NULL	Pune	Bangalore	10:00	30
+2	NULL	Mumbai	Jamnagar	12:00	40
+3	NULL	New Delhi	Hyderabad	17:10	70
+Time taken: 1.296 seconds, Fetched: 3 row(s)
+hive> drop table flight_info;
+OK
+Time taken: 0.324 seconds
+hive> CREATE EXTERNAL TABLE flight_info(id int,flightno string,source string,destination string,scheduled string,delay int)
+    > STORED BY
+    > 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH SERDEPROPERTIES
+    > ("hbase.columns.mapping"=":key,info:flightno,info:source,info:destination,info:scheduled,delay:minutes")
+    > TBLPROPERTIES ("hbase.table.name"="flight_info");
+OK
+Time taken: 0.248 seconds
+
+hive> select * from flight_info;
+OK
+1	6E101	Pune	Bangalore	10:00	30
+2	AI601	Mumbai	Jamnagar	12:00	40
+3	VI890	New Delhi	Hyderabad	17:10	70
+Time taken: 0.211 seconds, Fetched: 3 row(s)
+hive> select sum(delay) from flight_info;
+Query ID = cloudera_20230529042020_3346c06f-5f47-427d-b792-191237643e5b
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1685350677267_0002, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1685350677267_0002/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1685350677267_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-05-29 04:21:00,319 Stage-1 map = 0%,  reduce = 0%
+2023-05-29 04:21:18,544 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 7.33 sec
+2023-05-29 04:21:33,499 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 11.54 sec
+MapReduce Total cumulative CPU time: 11 seconds 540 msec
+Ended Job = job_1685350677267_0002
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 11.54 sec   HDFS Read: 7600 HDFS Write: 4 SUCCESS
+Total MapReduce CPU Time Spent: 11 seconds 540 msec
+OK
+140
+Time taken: 58.267 seconds, Fetched: 1 row(s)
+hive> select avg(delay) from flight_info;
+Query ID = cloudera_20230529042121_b5a12565-e1b6-48c2-8084-f27d33e7b11b
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1685350677267_0003, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1685350677267_0003/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1685350677267_0003
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2023-05-29 04:22:19,650 Stage-1 map = 0%,  reduce = 0%
+2023-05-29 04:22:35,280 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 5.4 sec
+2023-05-29 04:22:51,215 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 9.58 sec
+MapReduce Total cumulative CPU time: 9 seconds 580 msec
+Ended Job = job_1685350677267_0003
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 9.58 sec   HDFS Read: 8043 HDFS Write: 19 SUCCESS
+Total MapReduce CPU Time Spent: 9 seconds 580 msec
+OK
+46.666666666666664
+Time taken: 66.779 seconds, Fetched: 1 row(s)
+hive> INSERT INTO flight_info VALUES (4,"6E999","Pune","Dubai","10:00",15);
+Query ID = cloudera_20230529042828_f996dfe4-7d22-4944-bd33-1fd26349a581
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1685350677267_0004, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1685350677267_0004/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1685350677267_0004
+Hadoop job information for Stage-0: number of mappers: 1; number of reducers: 0
+2023-05-29 04:28:34,571 Stage-0 map = 0%,  reduce = 0%
+2023-05-29 04:28:47,393 Stage-0 map = 100%,  reduce = 0%, Cumulative CPU 4.93 sec
+MapReduce Total cumulative CPU time: 4 seconds 930 msec
+Ended Job = job_1685350677267_0004
+MapReduce Jobs Launched: 
+Stage-Stage-0: Map: 1   Cumulative CPU: 4.93 sec   HDFS Read: 4907 HDFS Write: 0 SUCCESS
+Total MapReduce CPU Time Spent: 4 seconds 930 msec
+OK
+Time taken: 28.712 seconds
+hive> CREATE INDEX flight_index ON TABLE flight_info(delay) AS 'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler' WITH DEFERRED REBUILD;
+OK
+Time taken: 0.957 seconds
+hive> SHOW INDEX ON flight_index;
+FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.DDLTask. Table not found flight_index
+hive> SHOW INDEX ON flight_info;
+OK
+flight_index        	flight_info         	delay               	default__flight_info_flight_index__	compact             	
+Time taken: 0.196 seconds, Fetched: 1 row(s)

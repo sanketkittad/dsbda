@@ -1,0 +1,26 @@
+## create table
+
+create table retail(order_id int,item_id string,description string,quantity int,unit_price int,customer_id string,country string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE;
+
+## index
+hive> SHOW INDEX ON retail;
+OK
+
+## total sale and average sale
+
+hive> select sum(quantity*unit_price) as total_sale,avg(quantity*unit_price) average_price FROM retail; 
+
+## get maximum order cost details
+
+hive> select customer_name,SUM(quantity*unit_price) as tot_cost FROM retail GROUP BY customer_id ORDER BY tot_cost LIMIT 1;
+
+## get customer with maximum order total
+
+hive> select customer_id,SUM(quantity*unit_price) as tot_cost FROM retail GROUP BY customer_id ORDER BY tot_cost DESC LIMIT 1;
+
+## insert into external table
+
+CREATE EXTERNAL TABLE hbase_retail(order_id int,item_id string,description string,quantity int,unit_price int,customer_id string,country string) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH SERDEPROPERTIES ("hbase.columns.mapping"="info:item_id,info:description,info:quantity,info:unit_price,info:customer_id,info:country") TBLPROPERTIES ("hbase.table.name"="hbase_retail");
+
+
+
